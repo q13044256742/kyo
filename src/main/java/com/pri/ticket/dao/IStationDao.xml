@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pri.ticket.dao.IStationDao">
+	<select id="getStationList" resultType="com.pri.ticket.service.Station">
+		SELECT 
+		    s.sid AS 'sId',
+		    s.cid AS 'cId',
+		    c.cname AS 'cName',
+		    s.sname AS 'sName',
+		    s.sintro AS 'sIntro'
+		FROM
+		    station s
+		        LEFT JOIN
+		    city c ON s.cid = c.cid
+		    <where>
+		    	1=1
+				<if test="query.searchCityId!=null and query.searchCityId!=''">
+					AND s.cid=#{query.searchCityId}
+				</if>
+		    </where>
+	</select>	
+	
+	<select id="getScodeList" resultType="com.pri.ticket.service.Departure">
+		SELECT 
+		    did AS 'dId',
+		    cid AS 'cId',
+		    dcode AS 'dCode',
+		    dstarttime AS 'dStartTime',
+		    dendtime AS 'dEndTime',
+		    dticket AS 'dTicket'
+		FROM departure 
+			WHERE cid=#{sid}
+	</select>	
+	
+	<insert id="reserveTicket">
+		
+	</insert>
+	
+	<select id="getCityList" resultType="com.pri.ticket.service.CityObject">
+		SELECT
+			cid as "cId",
+			cname as "cName",
+			pid as "pId",
+			ctid as "cTid"
+		FROM city
+	</select>
+	
+	<insert id="addCity">
+		INSERT INTO city VALUES (UUID(), #{cName}, #{pId}, #{cTid});
+	</insert>
+	
+	<delete id="deleteCity">
+		DELETE FROM city WHERE cid in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<insert id="addStation">
+		INSERT INTO station VALUES(UUID(),#{cId},#{sName},#{sIntro});
+	</insert>
+	
+	<delete id="deleteStation">
+		DELETE FROM station WHERE sid in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="getDepartureList" resultType="com.pri.ticket.service.Departure">
+		SELECT 
+		    d.did AS 'dId',
+		    d.cid AS 'cId',
+		    s.sname AS 'cName',
+		    d.dcode AS 'dCode',
+		    d.dstarttime AS 'dStartTime',
+		    d.dendtime AS 'dEndTime',
+		    d.dticket AS 'dTicket'
+		FROM
+		    departure d
+			LEFT JOIN
+		    station s ON d.cid = s.sid
+	</select>
+	
+	<select id="getDepartureById" resultType="com.pri.ticket.service.Departure">
+		SELECT 
+		    did AS 'dId',
+		    cid AS 'cId',
+		    dcode AS 'dCode',
+		    dstarttime AS 'dStartTime',
+		    dendtime AS 'dEndTime',
+		    dticket AS 'dTicket'
+		FROM
+		    departure
+		  WHERE did=#{did}
+	</select>
+	
+	<insert id="addDeparture">
+		INSERT INTO departure(did, cid, dcode, dstarttime, dendtime, dticket) VALUES(UUID(), #{cId}, #{dCode}, #{dStartTime}, #{dEndTime}, #{dTicket});
+	</insert>
+	
+	<delete id="deleteDeparture">
+		DELETE FROM departure WHERE did in
+		<foreach collection="ids" item="id" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

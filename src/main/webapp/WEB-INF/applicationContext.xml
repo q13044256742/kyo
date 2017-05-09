@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+	<context:component-scan base-package="com.pri.ticket" />
+	<mvc:resources location="skin/" mapping="skin/**"/>
+	
+	<context:property-placeholder location="classpath:config.properties"/>
+
+	<mvc:annotation-driven/>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<!-- <property name="suffix" value=".jsp" /> -->
+		<property name="order" value="2" />
+	</bean>
+
+
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath">
+			<value>classpath:com/goldgov/train/module/</value>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+			</props>
+		</property> 
+	</bean>
+	
+	
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="freemarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<!-- <property name="viewNames" value=".ftl" /> -->
+		<property name="contentType" value="text/html; charset=utf-8" />
+		<property name="cache" value="true" />
+		<property name="order" value="1" />
+	</bean>
+	
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${dataSource_driverClass}" />
+		<property name="jdbcUrl" value="${dataSource_jdbcUrl}" />
+		<property name="user" value="${dataSource_user}" />
+		<property name="password" value="${dataSource_password}" />
+		<property name="maxPoolSize" value="${dataSource_maxPoolSize}" />
+		<property name="minPoolSize" value="${dataSource_minPoolSize}" />
+		<property name="initialPoolSize" value="${dataSource_initialPoolSize}" />
+		<property name="maxIdleTime" value="${dataSource_maxIdleTime}" />
+	</bean>
+
+	<bean id="myBatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.pri.ticket" />
+		<property name="sqlSessionFactoryBeanName" value="myBatisSqlSessionFactory" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager"
+		order="1" />
+
+	<aop:aspectj-autoproxy />
+
+	<aop:config>
+		<aop:advisor id="managerTx" advice-ref="txAdvice"
+			pointcut="execution(* com.pri.ticket..service.impl.*.*(..))" order="2" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="doInTransaction" />
+		</tx:attributes>
+	</tx:advice>
+	
+</beans>

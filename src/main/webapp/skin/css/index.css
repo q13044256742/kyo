@@ -1,0 +1,164 @@
+/* reset */
+*{
+	box-sizing: border-box;
+}
+a,a:hover{
+	color:inherit;
+	text-decoration: none;
+}
+body{
+	font:menu;
+	font-size: 14px;
+	line-height: 20px;
+	color:#333;
+	background: #fff;
+	-webkit-font-smoothing:antialiased;
+	font-family: Microsoft YaHei,\5FAE\8F6F\96C5\9ED1,sans-serif;
+}
+body,p,dl,dt,dd,h1,h2,h3,h4,h5,h6,fieldset,legend,select,textarea{
+	margin:0;
+	padding:0;
+}
+b,dt,th{font-weight: normal;}
+cite,em,i{
+	font-style: normal;
+}
+button,input,select,textarea,{
+	font:inherit;
+	border:1px solid #ccc;
+}
+button,img,input[type=button]{
+	outline: 0;
+}
+h1,h2,h3,h4,h5,h6{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-family: inherit;
+	line-height: 1.2;
+	font-weight: 500;
+	color: inherit;
+}
+h1,.h1{ font-size: 38px}
+h2,.h2{ font-size: 32px}
+h3,.h3{ font-size: 26px}
+h4,.h4{ font-size: 22px}
+h5,.h5{ font-size: 18px}
+h6,.h6{ font-size: 15px}
+h1 small,h1 .small,
+h2 small,h2 .small,
+h3 small,h3 .small,
+h4 small,h4 .small,
+h5 small,h5 .small,
+h6 small,h6 .small{
+	font-size: 65%;
+	line-height: 1;
+	color:#666;
+}
+.h1,.h2,.h3,.h4,.h5,.h6{ line-height:1.2; }
+img{border:0}
+table{
+	width:100%;
+	table-layout:fixed;
+	border-collapse: collapse;
+}
+dt,th{ text-align: left; }
+small,.small{font-size: 80%}
+textarea{ resize: none; }
+
+.text-left{text-align: left}
+.text-right{text-align: right}
+.text-center{text-align: center}
+.text-ellipsis{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+
+.fl{float: left;}
+.fr{float: right;}
+
+.mt10{margin-top: 10px;}
+.mt15{margin-top: 15px;}
+.ml10{margin-left: 10px;}
+.mb0{margin-bottom: 0px;}
+/* index */
+.top { height: 46px; background: #ececec; }
+.top .container { height: inherit; background: url(../images/portal_logo.png) no-repeat 25px center; }
+.login { float: right; margin-top: 9px; font-weight: bold; line-height: 28px; }
+.login input { height: 28px; line-height: 26px; border: 1px solid #ccc; border-radius: 3px; padding: 0 3px; }
+.login button { height: 28px; padding: 0 15px; border: 0; border-radius: 3px; font-weight: bold; color: #fff; background-color: #a10500; cursor: pointer; }
+.head { min-width: 1170px; height: 160px; background: url(../images/banner.jpg) no-repeat center center #a10500; }
+.main-nav { height: 40px; background: #e5151f; }
+.container { width: 1170px; margin-left: auto; margin-right: auto; }
+.main-nav .nav { list-style: none; margin-top: 0; margin-bottom: 0; padding-left: 0; }
+.main-nav .nav:after { content: ""; display: block; width: 100%; height: 0; clear: both; overflow: hidden; }
+.main-nav .nav li { float: left; width: 167px; }
+.main-nav .nav a { display: block; color: #fff; font-size: 16px; line-height: 40px; text-align: center; }
+.main-nav .nav a.active,
+.main-nav .nav a:hover { background-color: #c70000; }
+.topic-content{margin-top:10px;padding:10px;border:1px solid #ccc;overflow:hidden;}
+.topic-content a{float:left;font:0/0 arial;}
+.topic-content a + a{margin-left:10px;}
+
+.footer { margin-top: 40px; height: 180px; border-top: 2px solid #e5151f; text-align: center; color: #222; }
+.footer .site-link { padding: 20px 0; }
+.footer .site-link select { width: 130px; height: 26px; border: 1px solid #ccc; color: #666; }
+.footer .site-link select + select { margin-left: 20px; }
+.footer .copyright {margin-top: 30px; line-height: 1.75; }
+
+.footer-tabs .foot_nav{margin:20px 0 0;padding:0;list-style:none;border-bottom:1px solid #ccc;height:42px;}
+.footer-tabs .foot_nav li,.footer-tabs .foot_nav div{float:left;width:167px;cursor:pointer;padding:0 28px;font-family:"Microsoft Yahei";font-size:18px;line-height:40px;}
+.footer-tabs .foot_nav li.active{position:relative;top:1px;border-top:2px solid #e5151f;border-left:1px solid #ccc;border-right:1px solid #ccc;background:#fff;height:41px;}
+.footer-tabs .footcon{overflow:hidden;}
+.footer-tabs .footcon ul{float:left;padding:0 65px 0 0;margin:25px 0 0;list-style:none;text-align:left;}
+.footer-tabs .footcon ul:first-child{margin-left:25px;}
+.footer-tabs .footcon li{line-height:28px;}
+.footer-tabs .footcon li a{margin-left:5px;}
+.footer-tabs .footcon li a:hover{color:#e5151f;}
+/* component */
+.pane{overflow: hidden;}
+.panel {box-shadow:none; }
+.panel .panel-head { height: 36px; line-height: 36px; border-bottom: 2px solid #999; margin-bottom: 5px; }
+.panel .panel-head .title { display: inline-block;*display:inline;*zoom:1; padding: 0 5px; font-size: 18.1px; line-height: 34px; font-weight: bold; border-bottom: 2px solid #e5151f; }
+.panel .panel-head .more { float: right; }
+.panel .panel-head .more:hover { color: #e5151f; }
+.panel .linkbar { display: inline-block; margin: 0; margin-left: 20px; padding: 0; list-style: none; }
+.panel .linkbar li { display: inline-block; cursor:pointer;}
+.panel .linkbar li + li:before { content: "/"; }
+.panel .linkbar a { margin: 0 10px; }
+.panel .linkbar .active a,
+.panel .linkbar a:hover { color: #e5151f; }
+.list { margin: 0; padding-left: 0; list-style: none; }
+.list li { position: relative; padding-left: 26px; padding-right: 5px; height: 34px; border-bottom: 1px dotted #ccc; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.list-date li { padding-right: 120px; }
+.list li:before { content: ""; position: absolute; top: 15px; left: 11px; width: 4px; height: 4px; background: #e5151f; }
+.list li a,
+.list li span { font-size: 14.5px; line-height: 34px; color: #666; }
+.list li a:hover { color: #e5151f; }
+.list li span { position: absolute; top: 0; right: 5px; color: #999; }
+.list-loading { position: relative; background: rgba(0, 0, 0, .05); }
+.list-loading:before { position: absolute; content: "\52a0\8f7d\4e2d..."; display: block; width: 100%; text-align: center; top: 50%; margin-top: -7px; color: #666; }
+.banner-portal{min-width: 1170px; height: 160px; background: url(../images/banner.jpg) no-repeat center center #a10500;margin-bottom: 20px;}
+
+
+.pagination>li>a, .pagination>li>span{
+  color:#777;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+  border-color:#d80020;
+  background-color: #d80020;
+}
+.tabs-sm{
+	height: 33px;
+	line-height: 23px;
+	border-bottom: 1px solid #ccc;
+}
+.tabs-sm .tab{
+	display: inline-block;
+	margin:4px 15px 7px 0;
+	padding:0 5px;
+	font-size: 15px;
+	color:#999;
+	border-left: 5px solid;
+	cursor: pointer;
+}
+.tabs-sm .tab.active,
+.tabs-sm .tab:hover{
+	color:#e5151f;
+}
