@@ -105,4 +105,12 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	<update id="orderTicket">
+		UPDATE departure SET dticket = dticket - 1 WHERE did =#{did} AND dticket > 0;
+	</update>
+	
+	<select id="isExist" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM USERS WHERE USERNAME=#{username} AND PASSWORD=#{password}	
+	</select>
 </mapper>

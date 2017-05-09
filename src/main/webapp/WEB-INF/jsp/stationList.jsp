@@ -31,20 +31,39 @@
 		cursor: pointer;
     	color: indianred;
 	}
+	.tag{
+		width: 100px;
+		display: inherit !important;
+	}
 </style>
 </head>
 <body>
 	<%@include file="./headBar.jsp" %>
 	<div class="mix-content" style="margin: 5px 5%">
 		<div class="panel mb0" style="padding: 5px;">
-			<form action="<%=request.getContextPath() %>/plane/showList" method="post">
+			<form action="<%=request.getContextPath() %>/bus/showList" method="post">
 				<table>
 					<tr>
-						<td style="width: 5%; text-align: center; font-size: 16px;">乘车日期</td>
-						<td style="width: 15%;">
-							<input type="text" name="searchDate" id="searchDate" value="<fmt:formatDate value="${searchDate}" type="date" pattern="yyyy-MM-dd"/>" class="form-control" readonly="readonly" placeholder="点击选择查询时间">
+						<td style="width: 5%; text-align: center; font-size: 16px;">选择地区</td>
+						<td style="width: 33%;">
+							<select class="form-control tag">
+								<option value="1">北京</option>
+							</select>&nbsp;省(市)
+							<select class="form-control tag">
+								<option value="1">海淀</option>
+							</select>&nbsp;市(区)
+							<select class="form-control tag" name="searchCityId" style="width: 150px; margin-left: 40px">
+								<option value="">全部</option>
+								<c:forEach items="${cityList}" var="item">
+									<option value="${item.cId}">${item.cName}</option>
+								</c:forEach>
+							</select>&nbsp;城区
 						</td>
-						<td style="padding-left: 10px; text-align: left;"><button type="submit" class="btn btn-default btn-sm">查询</button></td>
+						<td style="padding-left: 10px; text-align: left;">
+							<button type="submit" class="btn btn-primary btn-sm">
+								<span class="glyphicon glyphicon-search"></span> 立即查询
+							</button>
+						</td>
 					</tr>
 				</table>
 			</form>
@@ -131,7 +150,7 @@
 				  </div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="orderTicket()">提交订单</button>
 			</div>
 			</form>
 		</div>
@@ -181,6 +200,18 @@
 					$("#myModal .modal-body input").eq(2).val(data[0].dTicket);
 				}			
 			});
+		}
+	}
+	function orderTicket(){
+		if($("#myModal .modal-body input").eq(2).val() > 0){
+			var tag = $(".sCode");
+			if(confirm("确认要订购【" + tag.find("option:selected").text() + "】次长途车吗？")){
+				$.get("<%=request.getContextPath() %>/bus/orderTicket?did=" + tag.val(), function(data, status){
+					alert("订购成功，请准时取票！");
+				});
+			}
+		}else{
+			alert("对不起，此车票已售光！");
 		}
 	}
 </script>

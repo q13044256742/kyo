@@ -27,5 +27,9 @@ public interface IStationService {
 	public List<Departure> getScodeList(String sid);
 
 	public List<Departure> getDepartureById(String did);
+
+	public void orderTicket(String did);
+
+	public boolean isExist(UserObject user);
 	
 }

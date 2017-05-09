@@ -12,6 +12,7 @@ import com.pri.ticket.service.Departure;
 import com.pri.ticket.service.IStationService;
 import com.pri.ticket.service.Station;
 import com.pri.ticket.service.StationQuery;
+import com.pri.ticket.service.UserObject;
 
 @Service("StationServiceImpl")
 public class StationServiceImpl implements IStationService {
@@ -66,6 +67,14 @@ public class StationServiceImpl implements IStationService {
 
 	public List<Departure> getDepartureById(String did) {
 		return airPlaneDao.getDepartureById(did);
+	}
+
+	public void orderTicket(String did) {
+		airPlaneDao.orderTicket(did);
+	}
+
+	public boolean isExist(UserObject user) {
+		return airPlaneDao.isExist(user)>0?true:false;
 	}
 
 }

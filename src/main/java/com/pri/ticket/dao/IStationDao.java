@@ -9,6 +9,7 @@ import com.pri.ticket.service.CityObject;
 import com.pri.ticket.service.Departure;
 import com.pri.ticket.service.Station;
 import com.pri.ticket.service.StationQuery;
+import com.pri.ticket.service.UserObject;
 
 @Repository("IStationDao")
 public interface IStationDao {
@@ -35,4 +36,8 @@ public interface IStationDao {
 	public List<Departure> getScodeList(@Param("sid") String sid);
 
 	public List<Departure> getDepartureById(@Param("did") String did);
+
+	public void orderTicket(@Param("did") String did);
+
+	public Integer isExist(UserObject user);
 }

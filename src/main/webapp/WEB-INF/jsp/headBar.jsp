@@ -8,7 +8,6 @@
 		        <ul class="dropdown-menu">
 		            <li><a href="<%=request.getContextPath() %>/bus/showList">列表首页</a></li>
 		            <li><a href="<%=request.getContextPath() %>/bus/dataManage?type=1">数据管理</a></li>
-		            <li><a href="<%=request.getContextPath() %>/bus/accountManage">账户管理</a></li>
 		            <li class="divider"></li>
 		            <li><a href="javascript:void(0)" onclick="logout()">退出登录</a></li>
 		        </ul>
@@ -56,7 +55,7 @@
 <script>
 	function logout(){
 		if(confirm('您确定注销吗？')){
-			window.location.href="${contextPath}/logout.jsp";
+			window.location.href="userLogin";
 		}
 	}
 </script>

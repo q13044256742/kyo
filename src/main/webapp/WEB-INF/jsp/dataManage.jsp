@@ -287,8 +287,8 @@
 </div>
 </body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/skin/js/jquery.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath() %>/skin/js/jquery.jedate.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath() %>/skin/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/skin/js/jquery.jedate.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$(".js-checkall").click(function(){
