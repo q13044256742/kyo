@@ -17,7 +17,7 @@
 	<context:component-scan base-package="com.pri.ticket" />
 	<mvc:resources location="skin/" mapping="skin/**"/>
 	
-	<context:property-placeholder location="classpath:config.properties"/>
+	<context:property-placeholder location="classpath:config.properties" />
 
 	<mvc:annotation-driven/>
 	
@@ -31,7 +31,7 @@
 
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath">
-			<value>classpath:com/goldgov/train/module/</value>
+			<value>classpath:com/pri/ticket/</value>
 		</property>
 		<property name="freemarkerSettings">
 			<props>
@@ -84,14 +84,12 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager"
-		order="1" />
+	<tx:annotation-driven transaction-manager="transactionManager" order="1" />
 
 	<aop:aspectj-autoproxy />
 
 	<aop:config>
-		<aop:advisor id="managerTx" advice-ref="txAdvice"
-			pointcut="execution(* com.pri.ticket..service.impl.*.*(..))" order="2" />
+		<aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* com.pri.ticket..service.impl.*.*(..))" order="2" />
 	</aop:config>
 
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
