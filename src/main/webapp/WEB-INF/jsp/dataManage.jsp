@@ -27,6 +27,23 @@
 	.type2 select, .type2 label{
 		float: none !important;
 	}
+	.tblist{
+		margin-bottom: 5px
+	}
+	.tblist th, .tblist td{
+		text-align: center;
+	}
+	.tblist input{
+		width: 90px;
+	    border: none;
+	    border-bottom: 1px solid #b6caca;
+	    text-align: center;
+	    outline: none;
+	}
+	.divOnOff{
+	    max-height: 220px;
+    	overflow-y: scroll;
+	}
 </style>
 </head>
 <body>
@@ -261,9 +278,40 @@
 												    <button type="button" class="form-control" onclick="createCode(this)">获取编号</button>
 							                    </span>
 							                </div>
-										    <label>出发时间</label>
+							                <label>起始站点</label>
+										    <input type="text" class="form-control" name="dStartName">
+										    <label>首班时间</label>
 										    <input type="text" class="form-control" name="dStartTimeStr" readonly="readonly">
-										    <label>到达时间</label>
+										    <label>途经站点</label>
+										    <div class="btn-group" style="width: 100%">
+												<button type="button" class="btn btn-default" onclick="btnOnOff()" style="width: 30%">
+													点击编辑站点<span class="caret" style="margin-left: 10px"></span>
+												</button>
+												<div class="dropdown-menu divOnOff hide" role="menu" style="padding: 5px">
+													<table class="table tblist">
+														<tr>
+															<th>站点名</th>
+															<th>到达时间</th>
+															<th>票价(元)</th>
+															<th>车型</th>
+															<th>距离</th>
+														</tr>
+														<tr>
+															<td><input type="text"></td>
+															<td><input type="text" readonly="readonly" id="arrTime"></td>
+															<td><input type="number" maxlength="8"></td>
+															<td><input type="text"></td>
+															<td><input type="number" maxlength="8"></td>
+														</tr>
+													</table>
+													<div style="text-align: right;">
+														<button type="button" class="btn btn-info btn-xs" style="margin-right: 8px" onclick="addTbList(this)">
+															<span class="glyphicon glyphicon-hand-right"></span> 添加
+														</button>
+													</div>
+												</div>
+											</div>
+										    <label>末班时间</label>
 										    <input type="text" class="form-control" name="dEndTimeStr" readonly="readonly">
 										    <label>每日放出总票数</label>
 										    <input type="number" class="form-control" name="dTicket" value="100" size="3">
@@ -294,7 +342,7 @@
 		$(".js-checkall").click(function(){
 			$("input[name='ids']").prop("checked", $(this).prop("checked"));
 		});
-		$("input[name='dStartTimeStr'], input[name='dEndTimeStr']").jeDate({
+		$("input[name='dStartTimeStr'], input[name='dEndTimeStr'], #arrTime").jeDate({
             format:"hh:mm",
         })
 	});
@@ -346,8 +394,31 @@
 		if(!flag){
 			alert("请先完善信息");
 		}
-		debugger;
 		return flag;
+	}
+	function btnOnOff(){
+		var tag = $(".divOnOff"); 
+		if(tag.hasClass("hide")){
+			tag.removeClass("hide");
+			tag.addClass("show");
+		}
+		else{
+			tag.addClass("hide");
+			tag.removeClass("show");						
+		}
+	}
+	function addTbList(tag){
+		var firstTag = $(tag).parent().prev().find("tr:first");
+		var sourceTag = $(tag).parent().prev().find("tr:last").find("td");
+		var targetTag = "<tr><td><input type='hidden' name='dTheWayNameArray' value='" + sourceTag.eq(0).find("input").val() + "' />" + sourceTag.eq(0).find("input").val() + "</td>" +
+			"<td><input type='hidden' name='dTheWayTimeArray' value='" + sourceTag.eq(1).find("input").val() + "' />"+sourceTag.eq(1).find("input").val()+"</td>" +
+			"<td><input type='hidden' name='dTakePriceArray' value='" + sourceTag.eq(2).find("input").val() + "' />"+sourceTag.eq(2).find("input").val()+"</td>" + 
+			"<td><input type='hidden' name='dTypeArray' value='" + sourceTag.eq(3).find("input").val() + "' />"+sourceTag.eq(3).find("input").val()+"</td>" +
+			"<td><input type='hidden' name='dDistanceArray' value='" + sourceTag.eq(4).find("input").val() + "' />"+sourceTag.eq(4).find("input").val()+"</td></tr>";
+		firstTag.after(targetTag);
+		sourceTag.find("input").each(function(){
+			$(this).val("");
+		});
 	}
 </script>
 </html>

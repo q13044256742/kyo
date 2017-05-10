@@ -27,7 +27,12 @@
 		    dcode AS 'dCode',
 		    dstarttime AS 'dStartTime',
 		    dendtime AS 'dEndTime',
-		    dticket AS 'dTicket'
+		    dticket AS 'dTicket',
+		    dthewayname AS 'dTheWayName',
+		    dthewaytime AS 'dTheWayTime',
+		    dtakeprice AS 'dTakePrice',
+		    dtype AS 'dType',
+		    ddistance AS 'dDistance'
 		FROM departure 
 			WHERE cid=#{sid}
 	</select>	
@@ -75,7 +80,12 @@
 		    d.dcode AS 'dCode',
 		    d.dstarttime AS 'dStartTime',
 		    d.dendtime AS 'dEndTime',
-		    d.dticket AS 'dTicket'
+		    d.dticket AS 'dTicket',
+		    d.dthewayname AS 'dTheWayName',
+		    d.dthewaytime AS 'dTheWayTime',
+		    d.dtakeprice AS 'dTakePrice',
+		    d.dtype AS 'dType',
+		    d.ddistance AS 'dDistance'
 		FROM
 		    departure d
 			LEFT JOIN
@@ -89,14 +99,21 @@
 		    dcode AS 'dCode',
 		    dstarttime AS 'dStartTime',
 		    dendtime AS 'dEndTime',
-		    dticket AS 'dTicket'
+		    dticket AS 'dTicket',
+		    dthewayname AS 'dTheWayName',
+		    dthewaytime AS 'dTheWayTime',
+		    dtakeprice AS 'dTakePrice',
+		    dtype AS 'dType',
+		    ddistance AS 'dDistance'
 		FROM
 		    departure
 		  WHERE did=#{did}
 	</select>
 	
 	<insert id="addDeparture">
-		INSERT INTO departure(did, cid, dcode, dstarttime, dendtime, dticket) VALUES(UUID(), #{cId}, #{dCode}, #{dStartTime}, #{dEndTime}, #{dTicket});
+		INSERT INTO 
+			departure(did, cid, dcode, dstarttime, dendtime, dticket, dstartname, dthewayname, dthewaytime, dtakeprice, dtype, ddistance) 
+		VALUES(UUID(), #{cId}, #{dCode}, #{dStartTime}, #{dEndTime}, #{dTicket}, #{dStartName}, #{dTheWayName}, #{dTheWayTime}, #{dTakePrice}, #{dType}, #{dDistance});
 	</insert>
 	
 	<delete id="deleteDeparture">

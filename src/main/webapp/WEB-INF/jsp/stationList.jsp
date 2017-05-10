@@ -37,6 +37,23 @@
 		border-radius: 5px;
 		padding: 5px;
 	}
+	.tblist{
+		margin-bottom: 5px
+	}
+	.tblist th, .tblist td{
+		text-align: center;
+	}
+	.tblist input{
+		width: 90px;
+	    border: none;
+	    border-bottom: 1px solid #b6caca;
+	    text-align: center;
+	    outline: none;
+	}
+	.divOnOff{
+	    max-height: 220px;
+    	overflow-y: scroll;
+	}
 </style>
 </head>
 <body>
@@ -76,7 +93,7 @@
 					<th width="8%">序号</th>
 					<th width="15%">车站名称</th>
 					<th width="20%">车站简介</th>
-					<th width="">车次信息</th>
+					<th width="">途经地点</th>
 					<th width="15%">操作</th>
 				</tr>
 				<c:forEach var="item" items="${resultList}" varStatus="state">
@@ -114,7 +131,7 @@
 								</div>
 							</div>
 							<!-- 结束 -->
-							<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="buyTicket('${item.sId}')">预订车票</button>
+							<button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal" onclick="buyTicket('${item.sId}')" id="btnOrder">预订车票</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -150,6 +167,20 @@
 				    <label for="name">剩余票数</label>
 				    <input type="text" class="form-control" readonly="readonly"/>
 				  </div>
+				  <div class="form-group">
+				    <label for="name">途经站点</label>
+					<div class="divOnOff" role="menu" style="padding: 5px">
+						<table class="table tblist">
+							<tr>
+								<th>站点名</th>
+								<th>到达时间</th>
+								<th>票价(元)</th>
+								<th>车型</th>
+								<th>距离</th>
+							</tr>
+						</table>
+					</div>
+			  </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="orderTicket()">提交订单</button>
@@ -171,8 +202,12 @@
 			var sid = tag.attr("data");
 			$.get("<%=request.getContextPath() %>/bus/getScodeList?sid=" + sid, function(data, status){
 				var tagList = "";
-				for (var i = 0; i < data.length; i++)
-					tagList += "<span class='sCodeStyle' onclick=\"depDetail('" + data[i].dId + "')\">【" + data[i].dCode + "】</span>";
+				for (var i = 0; i < data.length; i++){
+					var names = data[i].dTheWayName.split('&');
+					for (var j = 0; j < names.length; j++){
+						tagList += "<span class='sCodeStyle' onclick=\"depDetail('" + data[i].dId + "')\">&nbsp;" + names[j] + "&nbsp;</span>";
+					}
+				}
 				tag.find("td").eq(3).html(tagList);
 			});
 		});
@@ -181,6 +216,7 @@
 		});
 	});
 	function buyTicket(sid){
+		$("#myModal .modal-body .form-group:first").removeClass("hide");
 		$.get("<%=request.getContextPath() %>/bus/getScodeList?sid=" + sid, function(data, status){
 			if(data.length > 0){
 				var tagList = "";
@@ -192,6 +228,7 @@
 		});
 	}
 	function getDepInfo(did){
+		debugger;
 		if(did != ""){
 			$.get("<%=request.getContextPath() %>/bus/getScodeList?did=" + did, function(data, status){
 				if(data.length > 0){
@@ -200,6 +237,16 @@
 						date = new Date(data[0].dEndTime);
 					$("#myModal .modal-body input").eq(1).val(date.getHours() + ":" + date.getMinutes());
 					$("#myModal .modal-body input").eq(2).val(data[0].dTicket);
+					var names = data[0].dTheWayName.split('&');
+					var times = data[0].dTheWayTime.split('&');
+					var prices = data[0].dTakePrice.split('&');
+					var types = data[0].dType.split('&');
+					var dis = data[0].dDistance.split('&');
+					$("#myModal .modal-body .tblist tr:gt(0)").remove();
+					for (var i = names.length - 1; i >= 0; i--) {
+						var trTag = "<tr><td>"+names[i]+"</td><td>"+times[i]+"</td><td>"+prices[i]+"</td><td>"+types[i]+"</td><td>"+dis[i]+"</td></tr>";
+						$("#myModal .modal-body .tblist").append(trTag);
+					}
 				}			
 			});
 		}
@@ -215,6 +262,11 @@
 		}else{
 			alert("对不起，此车票已售光！");
 		}
+	}
+	function depDetail(did){
+		getDepInfo(did);
+		$("#myModal .modal-body .form-group:first").addClass("hide");
+		$("#myModal").modal('show');
 	}
 </script>
 </html>
