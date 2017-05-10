@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=GB18030">
-<title>Insert title here</title>
+<title>正在跳转中</title>
 </head>
 <body>
 </body>
 <script type="text/javascript">
-	location.href="<%=request.getContextPath() %>/bus/showList";
+	location.href="<%=request.getContextPath() %>/bus/accountManage";
 </script>
 </html>
