@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div class="top">
-	<div class="container-fluid" style="height: inherit; background: url(${contextPath}/images/logo.png) no-repeat 25px center">
+	<div class="container-fluid" style="height: inherit;">
 		<div class="login loginInfo">
 			<li class="dropdown" style="list-style-type: none; margin-right: 1em">
 		        <a class="dropdown-toggle" data-toggle="dropdown" href="#">&emsp;我的工作台

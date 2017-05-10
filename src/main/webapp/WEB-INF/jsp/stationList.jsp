@@ -20,10 +20,6 @@
 	    overflow: hidden;
 	    white-space: nowrap;
 	}
-	.no-drop{
-		color: darkgray;
-		cursor: no-drop;
-	}
 	.modal-body div, .modal-title{
 		text-align: left;
 	}
@@ -35,12 +31,18 @@
 		width: 100px;
 		display: inline !important;
 	}
+	.mix-content{
+		margin: 5px 5%; 
+		background-color: white;
+		border-radius: 5px;
+		padding: 5px;
+	}
 </style>
 </head>
 <body>
 	<%@include file="./headBar.jsp" %>
-	<div class="mix-content" style="margin: 5px 5%">
-		<div class="panel mb0" style="padding: 5px;">
+	<div class="mix-content">
+		<div class="panel mb0">
 			<form action="<%=request.getContextPath() %>/bus/showList" method="post">
 				<table>
 					<tr>
