@@ -33,7 +33,7 @@
 	}
 	.tag{
 		width: 100px;
-		display: inherit !important;
+		display: inline !important;
 	}
 </style>
 </head>
@@ -44,8 +44,8 @@
 			<form action="<%=request.getContextPath() %>/bus/showList" method="post">
 				<table>
 					<tr>
-						<td style="width: 5%; text-align: center; font-size: 16px;">选择地区</td>
-						<td style="width: 33%;">
+						<td style="width: 8%; text-align: center; font-size: 16px;">选择地区</td>
+						<td style="width: 40%;">
 							<select class="form-control tag">
 								<option value="1">北京</option>
 							</select>&nbsp;省(市)

@@ -62,7 +62,7 @@
 						<c:if test="${type==2}"><span class="icon expand-icon glyphicon glyphicon-home"></span>&nbsp;车站信息维护</c:if>
 						<c:if test="${type==3}"><span class="icon expand-icon glyphicon glyphicon-indent-left"></span>&nbsp;车次信息维护</c:if>
 					<div class="btn-toolbar pull-right" style="margin-top:-4px;">
-						<button type="button" onclick="showAddPage()" class="btn btn-sm btn-default" data-toggle="modal" 
+						<button type="button" class="btn btn-sm btn-default" data-toggle="modal" 
 							data-target="#myModal<c:if test="${type==null||type==1}">1</c:if><c:if test="${type==2}">2</c:if><c:if test="${type==3}">3</c:if>">
 							<span class="glyphicon glyphicon-plus"></span>新增</button>
 <!-- 						<button type="button" onclick="" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-edit"></span>更新</button> -->
@@ -89,7 +89,7 @@
 									<td class="text-center">
 										<input type="checkbox" name="ids" value="${item.cId}">
 									</td>
-									<td><label> 北京市 </label><label> 海淀市/区 </label></td>
+									<td><span>北京省(市) </span><span>海淀市(区) </span></td>
 									<td>${item.cName}</td>
 								</tr>
 							</c:forEach>
