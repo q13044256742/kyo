@@ -28,8 +28,12 @@ public interface IStationService {
 
 	public List<Departure> getDepartureById(String did);
 
-	public void orderTicket(String did);
+	public void orderTicket(String did, Integer orderNum);
 
 	public boolean isExist(UserObject user);
+
+	public void updateDeparture(Departure departure);
+
+	public void updateInfoById(Integer type, String value, String id);
 	
 }

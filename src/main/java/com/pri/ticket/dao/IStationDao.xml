@@ -28,6 +28,7 @@
 		    dstarttime AS 'dStartTime',
 		    dendtime AS 'dEndTime',
 		    dticket AS 'dTicket',
+		    dstartname AS 'dStartName',
 		    dthewayname AS 'dTheWayName',
 		    dthewaytime AS 'dTheWayTime',
 		    dtakeprice AS 'dTakePrice',
@@ -81,6 +82,7 @@
 		    d.dstarttime AS 'dStartTime',
 		    d.dendtime AS 'dEndTime',
 		    d.dticket AS 'dTicket',
+		    d.dstartname AS 'dStartName',
 		    d.dthewayname AS 'dTheWayName',
 		    d.dthewaytime AS 'dTheWayTime',
 		    d.dtakeprice AS 'dTakePrice',
@@ -100,6 +102,7 @@
 		    dstarttime AS 'dStartTime',
 		    dendtime AS 'dEndTime',
 		    dticket AS 'dTicket',
+		    dstartname AS 'dStartName',
 		    dthewayname AS 'dTheWayName',
 		    dthewaytime AS 'dTheWayTime',
 		    dtakeprice AS 'dTakePrice',
@@ -116,6 +119,22 @@
 		VALUES(UUID(), #{cId}, #{dCode}, #{dStartTime}, #{dEndTime}, #{dTicket}, #{dStartName}, #{dTheWayName}, #{dTheWayTime}, #{dTakePrice}, #{dType}, #{dDistance});
 	</insert>
 	
+	<update id="updateDeparture">
+		UPDATE departure SET cid = cid
+		    <if test="dCode!=null and dCode!=''">,dcode = #{dCode}</if>
+		    <if test="dStartTime!=null">,dstarttime = #{dStartTime}</if>
+		    <if test="dEndTime!=null">,dendtime = #{dEndTime}</if>
+		    <if test="dTicket!=null and dTicket!=''">,dticket = #{dTicket}</if>
+		    <if test="dStartName!=null and dStartName!=''">,dstartname = #{dStartName}</if>
+		    <if test="dTheWayName!=null and dTheWayName!=''">,dthewayname = #{dTheWayName}</if>
+		    <if test="dTheWayTime!=null and dTheWayTime!=''">,dthewaytime = #{dTheWayTime}</if>
+		    <if test="dTakePrice!=null and dTakePrice!=''">,dtakeprice = #{dTakePrice}</if>
+		    <if test="dType!=null and dType!=''">,dtype = #{dType}</if>
+		    <if test="dDistance!=null and dDistance!=''">,ddistance = #{dDistance}</if>
+		WHERE
+		    did =#{dId}
+	</update>
+	
 	<delete id="deleteDeparture">
 		DELETE FROM departure WHERE did in
 		<foreach collection="ids" item="id" open="(" close=")" separator=",">
@@ -124,10 +143,24 @@
 	</delete>
 	
 	<update id="orderTicket">
-		UPDATE departure SET dticket = dticket - 1 WHERE did =#{did} AND dticket > 0;
+		UPDATE departure SET dticket = dticket - #{num} WHERE did =#{did} AND dticket >= #{num};
 	</update>
 	
 	<select id="isExist" resultType="java.lang.Integer">
 		SELECT COUNT(*) FROM USERS WHERE USERNAME=#{username} AND PASSWORD=#{password}	
 	</select>
+	
+	<update id="updateInfoById">
+		<choose>  
+            <when test="type==1">  
+                UPDATE city SET cname=#{value} WHERE cid=#{id}  
+            </when>  
+            <when test="type==2">  
+                UPDATE station SET sname=#{value} WHERE sid=#{id}  
+            </when>  
+            <when test="type==3"> 
+                UPDATE station SET sintro=#{value} WHERE sid=#{id}
+            </when>
+        </choose>  
+	</update>
 </mapper>

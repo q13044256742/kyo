@@ -1,5 +1,7 @@
 package com.pri.ticket.web;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class StationController {
 		model.addAttribute("cityList", cityList);
 		List<Station> airPlaneList = service.getStationList(query);
 		model.addAttribute("resultList", airPlaneList);
+		model.addAttribute("searchType", query.getSearchCityId());
 		return "stationList.jsp";
 	}
 
@@ -177,7 +180,14 @@ public class StationController {
 		model.addAttribute("type", type);
 		return "redirect:/bus/dataManage";
 	}
-
+	
+	@RequestMapping("updateDeparture")
+	public String updateDeparture(Departure departure, Integer type, Model model){
+		service.updateDeparture(departure);
+		model.addAttribute("type", type);
+		return "redirect:/bus/dataManage";
+	}
+	
 	/**
 	 * 删除车次信息
 	 * 
@@ -194,8 +204,8 @@ public class StationController {
 
 	@RequestMapping("orderTicket")
 	@ResponseBody
-	public void orderTicket(String did) {
-		service.orderTicket(did);
+	public void orderTicket(String did, Integer orderNum) {
+		service.orderTicket(did, orderNum);
 	}
 
 	@RequestMapping("userLogin")
@@ -204,5 +214,13 @@ public class StationController {
 		if (isExist)
 			return "redirect:/bus/showList";
 		return "accountManage.jsp?tip=" + (user.getUsername() == null ? "" : "error");
+	}
+	
+	@RequestMapping("updateInfoById")
+	public String updateInfoById(Integer type, String value, String id, Integer tp, Model model) throws UnsupportedEncodingException{
+		value = URLDecoder.decode(value, "UTF-8");
+		service.updateInfoById(type, value, id);
+		model.addAttribute("type", tp);
+		return "redirect:/bus/dataManage";
 	}
 }

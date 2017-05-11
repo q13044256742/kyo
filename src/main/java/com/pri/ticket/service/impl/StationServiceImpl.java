@@ -69,12 +69,20 @@ public class StationServiceImpl implements IStationService {
 		return airPlaneDao.getDepartureById(did);
 	}
 
-	public void orderTicket(String did) {
-		airPlaneDao.orderTicket(did);
+	public void orderTicket(String did, Integer orderNum) {
+		airPlaneDao.orderTicket(did, orderNum);
 	}
 
 	public boolean isExist(UserObject user) {
 		return airPlaneDao.isExist(user)>0?true:false;
+	}
+
+	public void updateDeparture(Departure departure) {
+		airPlaneDao.updateDeparture(departure);
+	}
+
+	public void updateInfoById(Integer type, String value, String id) {
+		airPlaneDao.updateInfoById(type, value, id);
 	}
 
 }

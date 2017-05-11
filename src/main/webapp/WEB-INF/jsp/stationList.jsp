@@ -13,6 +13,7 @@
 	th{
 		background-color: #f1f1f1;
 		text-align: center;
+		font-weight: bold;
 	}
 	td{
 		text-align: left;
@@ -51,8 +52,14 @@
 	    outline: none;
 	}
 	.divOnOff{
-	    max-height: 220px;
-    	overflow-y: scroll;
+	    max-height: 350px;
+    	overflow-y: auto;
+	}
+	.buystyle{
+		width: 35px !important;
+	}
+	.tdname{
+		background-color: #51daf7;
 	}
 </style>
 </head>
@@ -74,7 +81,7 @@
 							<select class="form-control tag" name="searchCityId" style="width: 150px; margin-left: 40px">
 								<option value="">全部</option>
 								<c:forEach items="${cityList}" var="item">
-									<option value="${item.cId}">${item.cName}</option>
+									<option value="${item.cId}" <c:if test="${searchType eq item.cId}">selected="selected"</c:if>>${item.cName}</option>
 								</c:forEach>
 							</select>&nbsp;城区
 						</td>
@@ -93,7 +100,7 @@
 					<th width="8%">序号</th>
 					<th width="15%">车站名称</th>
 					<th width="20%">车站简介</th>
-					<th width="">途经地点</th>
+<!-- 					<th width="">途经地点</th> -->
 					<th width="15%">操作</th>
 				</tr>
 				<c:forEach var="item" items="${resultList}" varStatus="state">
@@ -101,7 +108,7 @@
 						<td class="text-center">${state.index+1}</td>
 						<td class="text-center">${item.sName}</td>
 						<td>${item.sIntro}</td>
-						<td class="text-center"></td>
+<!-- 						<td class="text-center"></td> -->
 						<td class="text-center">
 							<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal${state.index}">查看详情</button>
 							<!-- 详情弹出层 -->
@@ -142,50 +149,37 @@
 
 <!-- 订票弹出层 -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style="width: 800px">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title" id="myModalLabel">预订车票</h4>
 			</div>
-			<form role="form">
 			<div class="modal-body">
 				  <div class="form-group">
-				    <label for="name">选择车次</label>
+				    <label>选择车次(剩余<span class="lastNum">0</span>张票)</label>
 				    <select class="form-control sCode">
 				    </select>
 				  </div>
 				  <div class="form-group">
-				    <label for="name">出发时间</label>
-				    <input type="text" class="form-control" readonly="readonly"/>
-				  </div>
-				  <div class="form-group">
-				    <label for="name">到达时间</label>
-				   <input type="text" class="form-control" readonly="readonly"/>
-				  </div>
-				  <div class="form-group">
-				    <label for="name">剩余票数</label>
-				    <input type="text" class="form-control" readonly="readonly"/>
-				  </div>
-				  <div class="form-group">
-				    <label for="name">途经站点</label>
-					<div class="divOnOff" role="menu" style="padding: 5px">
+					<div class="divOnOff">
 						<table class="table tblist">
 							<tr>
-								<th>站点名</th>
-								<th>到达时间</th>
-								<th>票价(元)</th>
+								<th width="100px">站点名</th>
+								<th width="120px">到达时间</th>
+								<th width="70px">票价(元)</th>
 								<th>车型</th>
-								<th>距离</th>
+								<th width="60px">距离</th>
+								<th width="150px">线路</th>
+								<th>操作</th>
 							</tr>
 						</table>
 					</div>
 			  </div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="orderTicket()">提交订单</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="orderTicket()" >提交订单</button>
 			</div>
-			</form>
 		</div>
 	</div>
 </div>
@@ -197,18 +191,27 @@
 <script type="text/javascript">
 	$(function(){
 		//获取当前车站的所有车次信息
-		$(".trlist").each(function(){
-			var tag = $(this);
-			var sid = tag.attr("data");
-			$.get("<%=request.getContextPath() %>/bus/getScodeList?sid=" + sid, function(data, status){
-				var tagList = "";
-				for (var i = 0; i < data.length; i++){
-					var names = data[i].dTheWayName.split('&');
-					for (var j = 0; j < names.length; j++){
-						tagList += "<span class='sCodeStyle' onclick=\"depDetail('" + data[i].dId + "')\">&nbsp;" + names[j] + "&nbsp;</span>";
-					}
-				}
-				tag.find("td").eq(3).html(tagList);
+// 		$(".trlist").each(function(){
+// 			var tag = $(this);
+// 			var sid = tag.attr("data");
+<%-- 			$.get("<%=request.getContextPath() %>/bus/getScodeList?sid=" + sid, function(data, status){ --%>
+// 				var tagList = "";
+// 				for (var i = 0; i < data.length; i++){
+// 					var names = data[i].dTheWayName.split('&');
+// 					for (var j = 0; j < names.length; j++){
+// 						tagList += "<span class='sCodeStyle' onclick=\"depDetail('" + data[i].dId + "')\">&nbsp;" + names[j] + "&nbsp;</span>";
+// 					}
+// 				}
+// 				tag.find("td").eq(3).html(tagList);
+// 			});
+// 		});
+		$(".buystyle").each(function(){
+			$(this).click(function(){
+				$(this).val("");
+			});
+			$(this).bour(function(){
+				if($(this).val()=="")
+					$(this).val("0");
 			});
 		});
 		$(".sCode").change(function(){
@@ -228,15 +231,11 @@
 		});
 	}
 	function getDepInfo(did){
-		debugger;
 		if(did != ""){
 			$.get("<%=request.getContextPath() %>/bus/getScodeList?did=" + did, function(data, status){
 				if(data.length > 0){
-					var date = new Date(data[0].dStartTime);
-					$("#myModal .modal-body input").eq(0).val(date.getHours() + ":" + date.getMinutes());
-						date = new Date(data[0].dEndTime);
-					$("#myModal .modal-body input").eq(1).val(date.getHours() + ":" + date.getMinutes());
-					$("#myModal .modal-body input").eq(2).val(data[0].dTicket);
+					$("#myModal .modal-body .lastNum").text(data[0].dTicket);
+					var stime = new Date(data[0].dStartTime).getHours() + ":" + new Date(data[0].dStartTime).getMinutes();
 					var names = data[0].dTheWayName.split('&');
 					var times = data[0].dTheWayTime.split('&');
 					var prices = data[0].dTakePrice.split('&');
@@ -244,18 +243,24 @@
 					var dis = data[0].dDistance.split('&');
 					$("#myModal .modal-body .tblist tr:gt(0)").remove();
 					for (var i = names.length - 1; i >= 0; i--) {
-						var trTag = "<tr><td>"+names[i]+"</td><td>"+times[i]+"</td><td>"+prices[i]+"</td><td>"+types[i]+"</td><td>"+dis[i]+"</td></tr>";
+						var trTag = "<tr><td class=''>"+names[i]+"</td><td class=''>" + stime + " - "+times[i]+"</td><td>"+prices[i]+"</td><td>"+types[i]+"</td><td>"+dis[i]+"</td>"+
+									"<td>" + data[0].dStartName + " - " + names[i] + "</td>"+
+									"<td>购买<input type='number' value='0' class='buystyle' onclick=\"$(this).val('')\" onblur=\"if($(this).val().length==0){$(this).val('0')}\" />张</td></tr>";
 						$("#myModal .modal-body .tblist").append(trTag);
 					}
-				}			
+				}
 			});
 		}
 	}
 	function orderTicket(){
-		if($("#myModal .modal-body input").eq(2).val() > 0){
-			var tag = $(".sCode");
+		var tag = $(".sCode");
+		if(parseInt($(".lastNum").text()) > 0){
 			if(confirm("确认要订购【" + tag.find("option:selected").text() + "】次长途车吗？")){
-				$.get("<%=request.getContextPath() %>/bus/orderTicket?did=" + tag.val(), function(data, status){
+				var totalNum = 0;
+				$(".tblist input").each(function(){
+					totalNum += parseInt($(this).val());
+				});
+				$.get("<%=request.getContextPath() %>/bus/orderTicket?did=" + tag.val() + "&orderNum=" + totalNum, function(data, status){
 					alert("订购成功，请准时取票！");
 				});
 			}
@@ -265,6 +270,7 @@
 	}
 	function depDetail(did){
 		getDepInfo(did);
+		$("#myModal .modal-body .form-group:first select").html("<option value='" + did + "' selected='selected'></option>");
 		$("#myModal .modal-body .form-group:first").addClass("hide");
 		$("#myModal").modal('show');
 	}

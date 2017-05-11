@@ -37,7 +37,11 @@ public interface IStationDao {
 
 	public List<Departure> getDepartureById(@Param("did") String did);
 
-	public void orderTicket(@Param("did") String did);
+	public void orderTicket(@Param("did") String did, @Param("num") Integer orderNum);
 
 	public Integer isExist(UserObject user);
+
+	public void updateDeparture(Departure departure);
+
+	public void updateInfoById(@Param("type") Integer type, @Param("value") String value, @Param("id") String id);
 }
