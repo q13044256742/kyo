@@ -202,12 +202,22 @@ public class StationController {
 		return "redirect:/bus/dataManage";
 	}
 
+	/**
+	 * 订票
+	 * @param did
+	 * @param orderNum
+	 */
 	@RequestMapping("orderTicket")
 	@ResponseBody
 	public void orderTicket(String did, Integer orderNum) {
 		service.orderTicket(did, orderNum);
 	}
 
+	/**
+	 * 用户登录
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping("userLogin")
 	public String userLogin(UserObject user) {
 		boolean isExist = service.isExist(user);
@@ -216,6 +226,11 @@ public class StationController {
 		return "accountManage.jsp?tip=" + (user.getUsername() == null ? "" : "error");
 	}
 	
+	/**
+	 * 更新信息
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
 	@RequestMapping("updateInfoById")
 	public String updateInfoById(Integer type, String value, String id, Integer tp, Model model) throws UnsupportedEncodingException{
 		value = URLDecoder.decode(value, "UTF-8");

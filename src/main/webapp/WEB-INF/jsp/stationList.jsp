@@ -163,7 +163,7 @@
 				  </div>
 				  <div class="form-group">
 					<div class="divOnOff">
-						<table class="table tblist">
+						<table class="table tblist table-bordered">
 							<tr>
 								<th width="100px">站点名</th>
 								<th width="120px">到达时间</th>
@@ -235,7 +235,7 @@
 			$.get("<%=request.getContextPath() %>/bus/getScodeList?did=" + did, function(data, status){
 				if(data.length > 0){
 					$("#myModal .modal-body .lastNum").text(data[0].dTicket);
-					var stime = new Date(data[0].dStartTime).getHours() + ":" + new Date(data[0].dStartTime).getMinutes();
+					var stime = timeToFix(new Date(data[0].dStartTime).getHours()) + ":" + timeToFix(new Date(data[0].dStartTime).getMinutes());
 					var names = data[0].dTheWayName.split('&');
 					var times = data[0].dTheWayTime.split('&');
 					var prices = data[0].dTakePrice.split('&');
@@ -255,14 +255,23 @@
 	function orderTicket(){
 		var tag = $(".sCode");
 		if(parseInt($(".lastNum").text()) > 0){
-			if(confirm("确认要订购【" + tag.find("option:selected").text() + "】次长途车吗？")){
-				var totalNum = 0;
-				$(".tblist input").each(function(){
-					totalNum += parseInt($(this).val());
-				});
-				$.get("<%=request.getContextPath() %>/bus/orderTicket?did=" + tag.val() + "&orderNum=" + totalNum, function(data, status){
-					alert("订购成功，请准时取票！");
-				});
+			var totalNum = 0, selTag = "确认要订购【" + tag.find("option:selected").text() + "】次长途车吗？";
+			$(".tblist tr:gt(0)").each(function(){
+				var cnum = parseInt($(this).find("td:last input").val());
+				if(cnum > 0){
+					totalNum += cnum;
+					selTag += "\r\n【"+$(this).find("td").eq(5).text()+"】" + cnum + "张";
+					
+				}
+			});
+			if(totalNum > 0){
+				if(confirm(selTag)){
+					if(totalNum > 0){
+						$.get("<%=request.getContextPath() %>/bus/orderTicket?did=" + tag.val() + "&orderNum=" + totalNum, function(data, status){
+							alert("订购成功，请准时取票！");
+						});
+					}
+				}
 			}
 		}else{
 			alert("对不起，此车票已售光！");
@@ -273,6 +282,12 @@
 		$("#myModal .modal-body .form-group:first select").html("<option value='" + did + "' selected='selected'></option>");
 		$("#myModal .modal-body .form-group:first").addClass("hide");
 		$("#myModal").modal('show');
+	}
+	function timeToFix(oldTime){
+		if(oldTime.toString().length < 2){
+			return "0" + oldTime;
+		}
+		return oldTime;
 	}
 </script>
 </html>

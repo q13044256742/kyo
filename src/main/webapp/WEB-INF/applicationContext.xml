@@ -75,7 +75,7 @@
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.pri.ticket" />
+		<property name="basePackage" value="com.pri.ticket.dao" />
 		<property name="sqlSessionFactoryBeanName" value="myBatisSqlSessionFactory" />
 	</bean>
 

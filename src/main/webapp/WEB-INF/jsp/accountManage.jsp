@@ -26,6 +26,9 @@
 	.login-form{
 		background-color: #ffffff;
 	}
+	body{
+		min-height: 890px;
+	}
 </style>
 </head>
 <body background="url('<%=request.getContextPath()%>/skin/images/bg1.jpg')">

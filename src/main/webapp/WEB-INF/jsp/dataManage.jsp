@@ -285,7 +285,7 @@
 															    <input type="text" class="form-control" name="dStartTimeStr" readonly="readonly" value="<fmt:formatDate value="${item.dStartTime}" pattern="HH:mm"/>">
 															    <label>途经站点</label>
 															    <div class="btn-group specgroup" style="width: 100%">
-																	<button type="button" class="btn btn-default" onclick="btnOnOff(1)" style="width: 30%">
+																	<button type="button" class="btn btn-default" onclick="btnOnOff(1, '${state.index}')" style="width: 30%">
 																		点击编辑站点<span class="caret" style="margin-left: 10px"></span>
 																	</button>
 																	<input type="hidden" class="arrayvalue" value="${item.dTheWayName}" />
@@ -482,17 +482,19 @@
 		}
 		return flag;
 	}
-	function btnOnOff(type){
+	function btnOnOff(type, type2){
 		var tag = $(".divOnOff"); 
 		if(tag.hasClass("hide")){
 			tag.removeClass("hide");
 			tag.addClass("show");
-			if(type == 1 && $(".specgroup tr").length == 2){
-				var names = $(".arrayvalue").eq(0).val().split('&');
-				var times = $(".arrayvalue").eq(1).val().split('&');
-				var price = $(".arrayvalue").eq(2).val().split('&');
-				var types = $(".arrayvalue").eq(3).val().split('&');
-				var dists = $(".arrayvalue").eq(4).val().split('&');
+			debugger;
+			if(type == 1 && $("#myModalUp" + type2 + " .specgroup tr").length == 2){
+				var parTag = $("#myModalUp" + type2 + " .arrayvalue");
+				var names = parTag.eq(0).val().split('&');
+				var times = parTag.eq(1).val().split('&');
+				var price = parTag.eq(2).val().split('&');
+				var types = parTag.eq(3).val().split('&');
+				var dists = parTag.eq(4).val().split('&');
 				for (var i = 0; i < names.length; i++) {
 					var nameTag = "<td><input type='text' name='dTheWayNameArray' value='" + names[i] + "'></td>";
 					var timeTag = "<td><input type='text' name='dTheWayTimeArray' readonly='readonly' data='arrTimeUpdate' value='"+times[i]+"'></td>";
@@ -500,7 +502,7 @@
 					var typeTag = "<td><input type='text' name='dTypeArray' value='"+types[i]+"'></td>";
 					var distTag = "<td><input type='number' name='dDistanceArray' value='"+dists[i]+"'></td>";
 					var deleTag = "<td><button type='button' class='btn btn-danger btn-xs' onclick='$(this).parent().parent().remove()'>删除</button></td>";
-					$(".specgroup tr:first").after("<tr>"+nameTag + timeTag + pricTag + typeTag + distTag + deleTag + "</tr>");
+					$("#myModalUp" + type2 + " .specgroup tr:first").after("<tr>"+nameTag + timeTag + pricTag + typeTag + distTag + deleTag + "</tr>");
 				}
 				$("input[data='arrTimeUpdate']").jeDate({format:"hh:mm"})
 			}
