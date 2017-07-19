@@ -70,8 +70,8 @@
 			<form action="<%=request.getContextPath() %>/bus/showList" method="post">
 				<table>
 					<tr>
-						<td style="width: 8%; text-align: center; font-size: 16px;">选择地区</td>
-						<td style="width: 40%;">
+						<td style="width: 100px; text-align: center; font-size: 16px;">选择地区</td>
+						<td style="width: 540px;">
 							<select class="form-control tag">
 								<option value="1">北京</option>
 							</select>&nbsp;省(市)
